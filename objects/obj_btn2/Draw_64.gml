@@ -4,8 +4,8 @@ draw_self();
 
 if(position_meeting (mouse_x, mouse_y, id)){
 	image_index = 1;
-	global.xBox = obj_btn.x-150;
-	global.yBox = obj_btn.y+250;
+	global.xBox = obj_btn2.x-150;
+	global.yBox = obj_btn2.y+250;
 	
 }else{
 	image_index = 0;
