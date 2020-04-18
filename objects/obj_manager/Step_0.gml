@@ -1,6 +1,17 @@
 
 switch (global.game_state) {
 	
+	case global.state_intro:
+		ShowText = true;
+		global.xBox = room_width/2;
+		global.yBox = room_height/2;
+		if(keyboard_check_pressed(vk_space)){
+			global.game_state = global.state_compdeal;
+			ShowText = false;
+		}
+	
+	break;
+	
 	case global.state_compdeal:
 	//deal AI hand
 		wait_time++;

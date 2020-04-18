@@ -21,6 +21,16 @@ if ( y >= 576 && letclick == true && position_meeting(mouse_x, mouse_y, id) ) {
 	hover_notover();
 } 
 
+//if(in_hand){
+//	if(position_meeting(mouse_x, mouse_y, id)){
+//		global.peek_card = id;
+//	}else if (global.peek_card == id){
+//		global.peek_card = noone;
+//	}
+//}
+
+
+
 //face index
 if (face_up) {
 	if card_type = global.rock {

@@ -27,8 +27,9 @@ global.state_discard = 7;
 global.state_compplay = 8;
 global.state_reshuffle2 = 9;
 global.state_moveup = 10;
+global.state_intro = 11;
 
-global.game_state = global.state_compdeal;
+global.game_state = global.state_intro;
 
 restart_card_count = 0;
 discard_card_count = -5;
@@ -38,6 +39,7 @@ order = 0
 final_restart_count = 0;
 current_card = 0;
 chose_card = false;
+ShowText = false;
 
 //set numbers for each type of card
 rock = 0;

@@ -15,7 +15,7 @@ if(position_meeting (mouse_x, mouse_y, id)){
 draw_set_color(fnt_title);
 draw_set_halign(fa_center);
 draw_set_valign(fa_center);
-draw_text_transformed_color(x, y, Mytext, 0.7, 0.7, 0, c_black, c_black, c_black, c_black, 1);
+draw_text_transformed_color(x, y, Mytext, 1, 1, 0, c_black, c_black, c_black, c_black, 1);
 
 if(position_meeting (mouse_x, mouse_y, id)&& mouse_check_button_pressed(mb_left)){
 	room_goto(myRoom);

@@ -11,6 +11,7 @@ global.comp_hand = ds_list_create();
 global.player_played_card = noone;
 global.player_hovered_card = noone;
 global.comp_played_card = noone;
+global.peek_card = noone;
 global.cards_on_the_table = ds_list_create();
 
 global.player_score = 0;
@@ -27,8 +28,10 @@ global.state_discard = 7;
 global.state_compplay = 8;
 global.state_reshuffle2 = 9;
 global.state_moveup = 10;
+global.state_peek = 11;
+global.state_intro = 12;
 
-global.game_state = global.state_compdeal;
+global.game_state = global.state_intro;
 
 restart_card_count = 0;
 discard_card_count = -5;
@@ -38,6 +41,9 @@ order = 0
 final_restart_count = 0;
 current_card = 0;
 chose_card = false;
+count_time = 0;
+myTime = 5.0;
+ShowText = false;
 
 //set numbers for each type of card
 rock = 0;
@@ -53,7 +59,7 @@ new_card.target_x = x;
 new_card.target_y = y +150+card_y;
 new_card.face_up = false;
 new_card.letclick = false;
-//new_card.in_hand = false;
+new_card.in_hand = false;
 //new_card.in_comp_hand = false;
 new_card.depth = card_y;
 if (rock <= 16) {

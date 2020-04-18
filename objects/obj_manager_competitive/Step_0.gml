@@ -1,13 +1,24 @@
 if(global.comp_score < 10 || global.player_score < 10){
 switch (global.game_state) {
 	
+	case global.state_intro:
+	ShowText = true;
+	global.xBox = room_width/2;
+	global.yBox = room_height/2;
+	if(keyboard_check_pressed(vk_space)){
+		global.game_state = global.state_compdeal;
+		ShowText = false;
+	}
+	
+	break;
+	
 	case global.state_compdeal:
 	//deal AI hand
 		wait_time++;
 		if (wait_time >= 10) {
 			var cards_in_comp_hand = ds_list_size(global.comp_hand);
 			var cards_in_player_hand = ds_list_size(global.player_hand);
-			if (cards_in_comp_hand < 4) {
+			if (cards_in_comp_hand < 3) {
 				var dealt_card = global.deck[| ds_list_size(global.deck) - 1];
 				ds_list_add(global.comp_hand, dealt_card);
 				ds_list_delete(global.deck, ds_list_size(global.deck) - 1);
@@ -18,6 +29,7 @@ switch (global.game_state) {
 				dealt_card.target_y = 150;
 				dealt_card.face_up = false;
 				dealt_card.letclick = false;
+				//dealt_card.in_hand = true;
 				wait_time = 0; //.2*room_speed;
 			}
 
@@ -37,7 +49,7 @@ switch (global.game_state) {
 		if(wait_time >=10){
 			var cards_in_player_hand = ds_list_size(global.player_hand);
 			
-			if (cards_in_player_hand < 4) {
+			if (cards_in_player_hand < 3) {
 				var dealt_card = global.deck[| ds_list_size(global.deck) - 1];
 				ds_list_add(global.player_hand, dealt_card);
 				ds_list_delete(global.deck, ds_list_size(global.deck) - 1);
@@ -52,14 +64,60 @@ switch (global.game_state) {
 			}
 		else {
 				wait_time =0.2*room_speed;
-				global.game_state = global.state_compplay;	
+				global.game_state = global.state_peek;	
 			}
 		}
 		break;
 
+	case global.state_peek:
+
+		
+		//letclick = true;
+		////wait_time ++
+		//if (mouse_check_button_pressed(mb_left)){
+		//	if (global.peek_card != noone){
+		//	//if(!global.peek_card.face_up){
+		//		//ds_list_add(global.face_up_cards, global.selected); //add the selected card to the faceup list
+		//		global.peek_card.face_up = true; //tell the card its face up
+		//		global.peek_card = noone;
+		//		count_time ++;
+		//		letclick = false;
+		//	//}
+		// } else if count_time == 30 {
+		//		global.peek_card.face_up = false;
+		//		count_time = 0;
+		//		global.game_state = global.state_compplay;
+		//		show_debug_message("statechange");
+		//	}		 
+		//}
+	
+	
+		wait_time ++;
+		count_time ++;
+		letclick = true;
+		if (wait_time >=40) {
+			if(global.peek_card == noone){
+				if(!audio_is_playing(snd_flip)){
+				audio_play_sound(snd_flip, 90, false);
+				}
+				var cards_in_comp_hand = ds_list_size(global.comp_hand);
+				var random_card_number = irandom_range(0,cards_in_comp_hand - 1);
+				global.peek_card = global.comp_hand[| random_card_number];	
+				global.peek_card.face_up = true;
+				wait_time = 0 //.1*room_speed;
+			} else if(count_time == 120) {
+				global.peek_card.face_up = false;
+				count_time = 0;
+				wait_time = 0.1*room_speed;
+				global.game_state = global.state_compplay;	
+			}	
+		}
+	
+	break;
 
 	case global.state_compplay:
 	//AI plays card
+		in_hand = false;
 		wait_time ++;
 		letclick = false;
 		if (wait_time >=40) {
@@ -85,6 +143,11 @@ switch (global.game_state) {
 		
 	case global.state_play:
 	//player plays card
+	if(myTime>0){
+	myTime = myTime-delta_time/1000000;
+	}else{
+		myTime = 0;
+	}
 			if (mouse_check_button_pressed(mb_left)) {
 				if(global.player_hovered_card != noone){
 					if(!audio_is_playing(snd_flip)){
@@ -95,10 +158,16 @@ switch (global.game_state) {
 					global.player_played_card.target_x = room_width/2;
 					ds_list_add(global.cards_on_the_table, global.player_played_card);
 					ds_list_delete(global.player_hand, global.player_played_card)
+					myTime = 5;
 					global.game_state = global.state_reveal;
 				}
 					
 			} 
+			if (myTime = 0){
+				global.game_state = global.state_discard;
+				global.comp_score ++;
+				myTime = 5;
+			}
 		break;
 		
 		
@@ -193,6 +262,7 @@ switch (global.game_state) {
 			 if(cards_remain_in_deck > 0){
 				wait_time = room_speed;
 				global.comp_played_card = noone;
+				global.peek_card = noone;
 				global.game_state = global.state_compdeal;
 			} else if(cards_remain_in_deck <= 0){
 				wait_time = room_speed;
@@ -275,6 +345,7 @@ switch (global.game_state) {
 			final_restart_count = 0;
 			restart_card_count = 0;
 			global.comp_played_card = noone;
+			global.peek_card = noone;
 			global.game_state = global.state_compdeal;
 			}
 		
@@ -284,11 +355,19 @@ switch (global.game_state) {
 }
 }
 
-if(global.comp_score == 10 || global.player_score == 10){
+if(global.comp_score == 10){
 	wait_time ++
 	
 	if(wait_time == 30){
 		room_goto(rm_end);
+		wait_time = 0;
+	}
+}
+if(global.player_score == 10){
+	wait_time ++
+	
+	if(wait_time == 30){
+		room_goto(rm_win);
 		wait_time = 0;
 	}
 }
