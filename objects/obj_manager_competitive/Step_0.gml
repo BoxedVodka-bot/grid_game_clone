@@ -365,6 +365,8 @@ if(global.comp_score == 5){
 		audio_play_sound(snd_losegame, 90, false);
 		}
 	if(wait_time == 25){
+		audio_stop_sound(snd_classic);
+		audio_stop_sound(snd_competitive);
 		room_goto(rm_end);
 		wait_time = 0;
 	}
@@ -375,6 +377,8 @@ if(global.player_score == 5){
 		audio_play_sound(snd_wingame, 90, false);
 		}
 	if(wait_time == 25){
+		audio_stop_sound(snd_classic);
+		audio_stop_sound(snd_competitive);
 		room_goto(rm_win);
 		wait_time = 0;
 	}
