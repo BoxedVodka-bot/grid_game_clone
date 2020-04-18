@@ -21,14 +21,17 @@ if ( y >= 576 && letclick == true && position_meeting(mouse_x, mouse_y, id) ) {
 	hover_notover();
 } 
 
-//if(in_hand){
-//	if(position_meeting(mouse_x, mouse_y, id)){
-//		global.peek_card = id;
-//	}else if (global.peek_card == id){
-//		global.peek_card = noone;
-//	}
-//}
+//if(global.game_state == global.state_peek && y<= 576 && position_meeting(mouse_x, mouse_y, id)){
+//	global.peek_card = id;
+//	hover_over();
 
+//}else if (global.game_state !=global.state_peek && y>=576 && letclick == true && position_meeting(mouse_x, mouse_y, id)){
+//	global.player_hovered_card = id;
+//	hover_over()
+//}else if(letclick == true && global.player_hovered_card == id){
+//	global.player_hovered_card = noone;
+//	hover_notover();
+//}
 
 
 //face index

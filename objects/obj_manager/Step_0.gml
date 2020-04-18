@@ -1,4 +1,8 @@
-
+//background music
+if(!audio_is_playing(snd_classic)){
+		audio_play_sound(snd_classic, 50, true);
+	}
+	
 switch (global.game_state) {
 	
 	case global.state_intro:

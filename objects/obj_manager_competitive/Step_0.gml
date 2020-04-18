@@ -1,4 +1,10 @@
-if(global.comp_score < 10 || global.player_score < 10){
+//background music
+if(!audio_is_playing(snd_competitive)){
+		audio_play_sound(snd_competitive, 50, true);
+	}
+	
+//states
+if(global.comp_score < 5 || global.player_score < 5){
 switch (global.game_state) {
 	
 	case global.state_intro:
@@ -71,26 +77,23 @@ switch (global.game_state) {
 
 	case global.state_peek:
 
-		
-		//letclick = true;
-		////wait_time ++
-		//if (mouse_check_button_pressed(mb_left)){
-		//	if (global.peek_card != noone){
-		//	//if(!global.peek_card.face_up){
-		//		//ds_list_add(global.face_up_cards, global.selected); //add the selected card to the faceup list
-		//		global.peek_card.face_up = true; //tell the card its face up
-		//		global.peek_card = noone;
-		//		count_time ++;
-		//		letclick = false;
-		//	//}
-		// } else if count_time == 30 {
-		//		global.peek_card.face_up = false;
-		//		count_time = 0;
-		//		global.game_state = global.state_compplay;
-		//		show_debug_message("statechange");
-		//	}		 
+		////players are able to peek one card before AI plays
+		//if(mouse_check_button_pressed(mb_left)){
+		//	if(global.peek_card !=noone){
+		//		alreadyChoosen = true;
+		//	}
 		//}
-	
+		//if(alreadyChoosen){
+		//	global.peek_card.face_up = true;
+		//	count_time ++;
+		//	if(count_time >=45){
+		//		global.game_state = global.state_compplay;
+		//		global.peek_card.face_up = false;
+		//		global.peek_card = noone;
+		//		alreadyChoosen = false;
+		//		count_time = 0;
+		//	}
+		//}
 	
 		wait_time ++;
 		count_time ++;
@@ -355,18 +358,23 @@ switch (global.game_state) {
 }
 }
 
-if(global.comp_score == 10){
+//Win or lose state
+if(global.comp_score == 5){
 	wait_time ++
-	
-	if(wait_time == 30){
+	if(!audio_is_playing(snd_losegame)){
+		audio_play_sound(snd_losegame, 90, false);
+		}
+	if(wait_time == 25){
 		room_goto(rm_end);
 		wait_time = 0;
 	}
 }
-if(global.player_score == 10){
+if(global.player_score == 5){
 	wait_time ++
-	
-	if(wait_time == 30){
+	if(!audio_is_playing(snd_wingame)){
+		audio_play_sound(snd_wingame, 90, false);
+		}
+	if(wait_time == 25){
 		room_goto(rm_win);
 		wait_time = 0;
 	}

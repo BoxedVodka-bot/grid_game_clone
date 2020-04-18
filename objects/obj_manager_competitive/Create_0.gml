@@ -44,6 +44,7 @@ chose_card = false;
 count_time = 0;
 myTime = 5.0;
 ShowText = false;
+alreadyChoosen = false;
 
 //set numbers for each type of card
 rock = 0;
